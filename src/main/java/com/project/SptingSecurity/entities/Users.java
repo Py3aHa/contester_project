@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,12 +29,13 @@ public class Users {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "date")
+    private String birthday;
 
     @Column(name = "isActive")
     private boolean isActive; // true if active, false if blocked
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Roles> roles;
+
 }

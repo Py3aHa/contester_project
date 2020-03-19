@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/main.html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+    <script>
+        function validate() {
+            if(document.error.value != null) {
+                if (document.loginForm.email.value == "" && document.loginForm.password.value == "") {
+                    alert("Username and password are required");
+                    document.loginForm.username.focus();
+                    return false;
+                }
+                if (document.loginForm.email.value == "") {
+                    alert("Username is required");
+                    document.loginForm.username.focus();
+                    return false;
+                }
+                if (document.loginForm.password.value == "") {
+                    alert("Password is required");
+                    document.loginForm.password.focus();
+                    return false;
+                }
+                if (document.loginForm.name.value == "") {
+                    alert("Name is empty");
+                    document.loginForm.name.focus();
+                    return false;
+                }
+                if (document.loginForm.password.value != document.loginForm.rePass.value) {
+                    alert("Passwords are different");
+                    document.loginForm.password.focus();
+                    document.loginForm.rePass.focus();
+                    return false;
+                }
+            }
+        }
+    </script>
+
+    <div layout:fragment="contentPart" class="container">
+        <div name = "error" th:if = "${error}" class = "mt-mb-5">
+            <div th:text = "${error}" class="alert alert-danger" role="alert">
+                Это уведомление об опасности — check it out!
+            </div>
+        </div>
+        <form name = "loginForm" action="/registration" method="post" class="mb-5">
+            <div class="form-group row">
+                <label for="inputId" class="col-sm-2 col-form-label">E-mail</label>
+                <div class="col-sm-10">
+                    <input name = "email" type="email" class="form-control" id="inputId" placeholder="example@mail.com">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputUserName" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                    <input name = "name" type="text" class="form-control" id="inputUserName" placeholder="Name">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <input name = "password" type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword4" class="col-sm-2 col-form-label">Re-Password</label>
+                <div class="col-sm-10">
+                    <input name = "rePass" type="password" class="form-control" id="inputPassword4" placeholder="Re-Password">
+                </div>
+            </div>
+            <label class="my-1 mr-2" for="days">Birthday</label>
+            <div class = "row">
+                <div>
+                    <label class="my-1 mr-2" for="days">Preference</label>
+                    <select th:name = "day" class="custom-select my-1 mr-2 mb-1" id="days">
+                        <option th:each = "i : ${#numbers.sequence(1, 31)}" th:value = "${i}" th:text = "${i}">
+                    </select>
+                </div>
+                <div>
+                    <label class="my-1 mr-2" for="months">Preference</label>
+                    <select th:name = "month" class="custom-select my-1 mr-2 mb-2" id="months">
+                        <option th:each = "i : ${months}" th:value = "${i}" th:text = "${i}">
+                    </select>
+                </div>
+                <div>
+                    <label class="my-1 mr-2" for="months">Preference</label>
+                    <select th:name = "year" class="custom-select my-1 mb-1 mr-2" id="year">
+                        <option th:each = "i : ${#numbers.sequence(1950, 2005)}" th:value = "${i}" th:text = "${i}">
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary my-1">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
