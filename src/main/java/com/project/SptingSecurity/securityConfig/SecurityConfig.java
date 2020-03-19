@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -35,17 +36,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/css/**").permitAll().
                 antMatchers("/js/**").permitAll().
                 antMatchers("/").permitAll();
-
         http.formLogin().
                 usernameParameter("user_email").
                 passwordParameter("user_password").
                 failureUrl("/login?error").
                 loginPage("/login").permitAll().
                 loginProcessingUrl("/auth").permitAll().
-                defaultSuccessUrl("/profile");
+                defaultSuccessUrl("/");
 
         http.logout().permitAll().
                 logoutUrl("/logout").
-                logoutSuccessUrl("/login").permitAll();
+                logoutSuccessUrl("/").permitAll();
+        http.csrf().disable();
     }
 }
