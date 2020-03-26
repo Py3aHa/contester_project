@@ -114,8 +114,11 @@ public class MainController {
     }
 
                                                 //Login
-    @GetMapping(path = "loginPage")
-    public String loginPage(){
+    @GetMapping(path = "login")
+    public String loginPage(Model model, @RequestParam(name = "error", required = false) String error){
+        model.addAttribute("error", error);
+        mess = "error";
+        if(error != null) model.addAttribute("m", mess);
         return "login";
     }
 }

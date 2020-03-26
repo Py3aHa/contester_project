@@ -41,7 +41,7 @@
         }
     </script>
 
-    <div layout:fragment="contentPart" class="container">
+    <div layout:fragment="header" class="container">
         <div name = "error" th:if = "${error}" class = "mt-mb-5">
             <div class="alert alert-danger" role="alert">
                 <p th:each = "m: ${mes}" th:text = "${m}"></p>
