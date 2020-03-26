@@ -43,8 +43,8 @@
 
     <div layout:fragment="contentPart" class="container">
         <div name = "error" th:if = "${error}" class = "mt-mb-5">
-            <div th:text = "${error}" class="alert alert-danger" role="alert">
-                Это уведомление об опасности — check it out!
+            <div class="alert alert-danger" role="alert">
+                <p th:each = "m: ${mes}" th:text = "${m}"></p>
             </div>
         </div>
         <form name = "loginForm" action="/registration" method="post" class="mb-5">
