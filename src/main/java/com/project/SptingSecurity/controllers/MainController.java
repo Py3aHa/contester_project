@@ -81,6 +81,7 @@ public class MainController {
         Users user = userRepositories.findByEmail(email);
         //model.addAttribute("error", null);
         String redirect = "redirect:/registrationPage?error";
+        String message = "";
         if(user == null){
             if(email.indexOf('@') > 3) {
                 if (password.equals(rePass)) {
@@ -95,18 +96,20 @@ public class MainController {
                         redirect = "redirect:/index?success";
                     }
                     else {
-                        model.addAttribute("mess", "pass < 6");
+                        message = "pass < 6";
                     }
                 }
                 else{
-                    model.addAttribute("messr", "pass != repass");
+                    message = "pass != repass";
                 }
             }
-            model.addAttribute("mess", "email < 4");
+            message = "email < 4";
         }
         else{
-            model.addAttribute("mess", "!null");
+            message = "!null";
         }
+        model.addAttribute("mes", message);
+        System.out.println(message);
         return redirect;
     }
 

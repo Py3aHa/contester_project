@@ -2,72 +2,543 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-<!--    class = "site-header sticky-top py-1" -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top justify-content-center" style="height: 40px; background-color: rgba(191,102,24,0.98)">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Codefarmer</title>
 
-<!--        <div class="container d-flex flex-column flex-md-row justify-content-between">-->
-<!--            <a class="py-2" href="#" aria-label="Product">-->
-<!--                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"></path></svg>-->
-<!--            </a>-->
-<!--            <a class="py-2 d-none d-md-inline-block" href="#">Tour</a>-->
-<!--            <a class="py-2 d-none d-md-inline-block" href="#">Product</a>-->
-<!--            <a class="py-2 d-none d-md-inline-block" href="#">Features</a>-->
-<!--            <a class="py-2 d-none d-md-inline-block" href="#">Enterprise</a>-->
-<!--            <a class="py-2 d-none d-md-inline-block" href="#">Support</a>-->
-<!--            <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>-->
-<!--            <a class="py-2 d-none d-md-inline-block" href="#">Cart</a>-->
-<!--        </div>-->
-        <div class="container collapse navbar-collapse" id="navbarSupportedContent">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" th:href="@{'/'}">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-            </ul>
-            <div class="form-inline my-2 my-lg-0">
-                <ul class="navbar-nav mr-auto" sec:authorize = "isAnonymous()">
-                    <li class="nav-item active">
-                        <a class="dropdown-item" th:href = "@{'/loginPage'}">Login</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="dropdown-item" th:href="@{'/registrationPage'}">Registration</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    <li class="nav-item active">
-                </ul>
-            </div>
-            <div class="form-inline my-2 my-lg-0">
-                <ul class="navbar-nav mr-auto" sec:authorize = "isAuthenticated()">
-                    <li class="nav-item active">
-                        <a class="dropdown-item" th:href = "@{'/logout'}">Logout</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="dropdown-item" th:href="@{'/'}"></a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    <li class="nav-item active">
-                </ul>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+
+
+        <!-- CSS -->
+        <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
+
+        <!--CSS -->
+        <link rel="stylesheet" th:href="@{'css/owl.carousel.css'}">
+        <link rel="stylesheet" th:href="@{'style.css'}">
+        <link rel="stylesheet" th:href="@{'css/responsive.css'}">
+    </head>
+    <body>
+        <!-- js -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+        <script src="https://code.jquery.com/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script th:src="@{'js/owl.carousel.min.js'}"></script>
+        <script th:src="@{'js/jquery.sticky.js'}"></script>
+        <script th:src="@{'js/jquery.easing.1.3.min.js'}"></script>
+        <script th:src="@{'js/main.js'}"></script>
+        <!--    class = "site-header sticky-top py-1" -->
+        <!--    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top justify-content-center" style="height: 40px; background-color: rgba(191,102,24,0.98)">-->
+
+        <!--        <div class="container d-flex flex-column flex-md-row justify-content-between">-->
+        <!--            <a class="py-2" href="#" aria-label="Product">-->
+        <!--                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" viewBox="0 0 24 24" focusable="false"><title>Product</title><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"></path></svg>-->
+        <!--            </a>-->
+        <!--            <a class="py-2 d-none d-md-inline-block" href="#">Tour</a>-->
+        <!--            <a class="py-2 d-none d-md-inline-block" href="#">Product</a>-->
+        <!--            <a class="py-2 d-none d-md-inline-block" href="#">Features</a>-->
+        <!--            <a class="py-2 d-none d-md-inline-block" href="#">Enterprise</a>-->
+        <!--            <a class="py-2 d-none d-md-inline-block" href="#">Support</a>-->
+        <!--            <a class="py-2 d-none d-md-inline-block" href="#">Pricing</a>-->
+        <!--            <a class="py-2 d-none d-md-inline-block" href="#">Cart</a>-->
+        <!--        </div>-->
+
+        <!--        MY          -->
+        <!--        <div class="container collapse navbar-collapse" id="navbarSupportedContent">-->
+        <!--            <a class="navbar-brand" href="#">Navbar</a>-->
+        <!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+        <!--                <span class="navbar-toggler-icon"></span>-->
+        <!--            </button>-->
+        <!--            <ul class="navbar-nav mr-auto">-->
+        <!--                <li class="nav-item active">-->
+        <!--                    <a class="nav-link" th:href="@{'/'}">Home <span class="sr-only">(current)</span></a>-->
+        <!--                </li>-->
+        <!--                <li class="nav-item">-->
+        <!--                    <a class="nav-link" href="#">Link</a>-->
+        <!--                </li>-->
+        <!--            </ul>-->
+        <!--            <div class="form-inline my-2 my-lg-0">-->
+        <!--                <ul class="navbar-nav mr-auto" sec:authorize = "isAnonymous()">-->
+        <!--                    <li class="nav-item active">-->
+        <!--                        <a class="dropdown-item" th:href = "@{'/loginPage'}">Login</a>-->
+        <!--                    </li>-->
+        <!--                    <li class="nav-item active">-->
+        <!--                        <a class="dropdown-item" th:href="@{'/registrationPage'}">Registration</a>-->
+        <!--                    </li>-->
+        <!--                    <li class="nav-item active">-->
+        <!--                        <a class="dropdown-item" href="#">Something else here</a>-->
+        <!--                    <li class="nav-item active">-->
+        <!--                </ul>-->
+        <!--            </div>-->
+        <!--            <div class="form-inline my-2 my-lg-0">-->
+        <!--                <ul class="navbar-nav mr-auto" sec:authorize = "isAuthenticated()">-->
+        <!--                    <li class="nav-item active">-->
+        <!--                        <a class="dropdown-item" th:href = "@{'/logout'}">Logout</a>-->
+        <!--                    </li>-->
+        <!--                    <li class="nav-item active">-->
+        <!--                        <a class="dropdown-item" th:href="@{'/'}"></a>-->
+        <!--                    </li>-->
+        <!--                    <li class="nav-item active">-->
+        <!--                        <a class="dropdown-item" href="#">Something else here</a>-->
+        <!--                    <li class="nav-item active">-->
+        <!--                </ul>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </nav>-->
+
+
+        <!--        verhnee menu        -->
+        <div class="header-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="user-menu">
+                            <ul>
+                                <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
+                                <li><a href="cart.html"><i class="fa fa-heart"></i> Contest</a></li>
+                                <li><a href="tasks.html"><i class="fa fa-user"></i> Tasks </a></li>
+                                <li><a href="checkout.html"><i class="fa fa-user"></i> C++ </a></li>
+                                <li><a href="login.html"><i class="fa fa-user"></i> Login</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="header-right">
+                            <ul class="list-unstyled list-inline">
+                                <li class="dropdown dropdown-small">
+                                    <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">language :</span><span class="value">English </span><b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">English</a></li>
+                                        <li><a href="#">Русский</a></li>
+                                        <li><a href="#">Қазақ</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
-    <div layout:fragment="contentPart" style = "min-height: 800px;">
-    </div>
-</body>
+
+        <!--        title       -->
+
+        <div class="site-branding-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="logo">
+                            <h1><a href="index.html">Code<span>farm</span></a></h1>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--        menu        -->
+        <div class="mainmenu-area">
+            <div class="container">
+                <div class="row">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="index.html">Home</a></li>
+                            <li><a href="shop.html">C++ Lessons</a></li>
+                            <li><a href="single-product.html">Solutions</a></li>
+                            <li><a href="comp-online.html" target="_blank">Contest</a></li>
+                            <li><a href="checkout.html">Forum</a></li>
+                            <li><a href="tasks.html">Tasks</a></li>
+                            <li><a href="#">Others</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--        carousel        -->
+
+        <div class="slider-area">
+            <div class="zigzag-bottom"></div>
+            <div id="slide-list" class="carousel carousel-fade slide" data-ride="carousel">
+
+                <div class="slide-bulletz">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ol class="carousel-indicators slide-indicators">
+                                    <li data-target="#slide-list" data-slide-to="0" class="active"></li>
+                                    <li data-target="#slide-list" data-slide-to="1"></li>
+                                    <li data-target="#slide-list" data-slide-to="2"></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--        img 1       -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <div class="single-slide">
+                            <div class="slide-bg slide-one"></div>
+                            <div class="slide-text-wrapper">
+                                <div class="slide-text">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-6">
+                                                <div class="slide-content">
+                                                    <h2>We are awesome</h2>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur, dolorem, excepturi. Dolore aliquam quibusdam ut quae iure vero exercitationem ratione!</p>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi ab molestiae minus reiciendis! Pariatur ab rerum, sapiente ex nostrum laudantium.</p>
+                                                    <a href="" class="readmore">Learn more</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--        img2        -->
+                    <div class="item">
+                        <div class="single-slide">
+                            <div class="slide-bg slide-two"></div>
+                            <div class="slide-text-wrapper">
+                                <div class="slide-text">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-6">
+                                                <div class="slide-content">
+                                                    <h2>We are great</h2>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe aspernatur, dolorum harum molestias tempora deserunt voluptas possimus quos eveniet, vitae voluptatem accusantium atque deleniti inventore. Enim quam placeat expedita! Quibusdam!</p>
+                                                    <a href="" class="readmore">Learn more</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--        img 3       -->
+                    <div class="item">
+                        <div class="single-slide">
+                            <div class="slide-bg slide-three"></div>
+                            <div class="slide-text-wrapper">
+                                <div class="slide-text">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-6">
+                                                <div class="slide-content">
+                                                    <h2>We are superb</h2>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores, eius?</p>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti voluptates necessitatibus dicta recusandae quae amet nobis sapiente explicabo voluptatibus rerum nihil quas saepe, tempore error odio quam obcaecati suscipit sequi.</p>
+                                                    <a href="" class="readmore">Learn more</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="maincontent-area">
+            <div class="zigzag-bottom"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="latest-tasks">
+                            <h2 class="section-title">Latest Tasks</h2>
+                            <div class="product-carousel">
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img th:src="@{'img/logo2.png'}" alt="">
+                                        <div class="product-hover">
+                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i>Solve problem</a>
+                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="single-product.html">Hello World</a></h2>
+
+                                    <div class="product-carousel-price">
+                                        <ins>15 points</ins>
+                                    </div>
+                                </div>
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img th:src="@{'img/logo2.png'}" alt="">
+                                        <div class="product-hover">
+                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Solve Problem</a>
+                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="single-product.html">Arrays</a></h2>
+                                    <div class="product-carousel-price">
+                                        <ins>25 points</ins>
+                                    </div>
+                                </div>
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img th:src="@{'img/logo2.png'}" alt="">
+                                        <div class="product-hover">
+                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i>Solve Problem</a>
+                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="single-product.html">Algorithms</a></h2>
+
+                                    <div class="product-carousel-price">
+                                        <ins>35 points</ins>
+                                    </div>
+                                </div>
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img th:src="@{'img/logo2.png'}" alt="">
+                                        <div class="product-hover">
+                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i>Solve Problem</a>
+                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="single-product.html">Data types</a></h2>
+
+                                    <div class="product-carousel-price">
+                                        <ins>15 points</ins>
+                                    </div>
+                                </div>
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img th:src="@{'img/logo2.png'}" alt="">
+                                        <div class="product-hover">
+                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Solve Problem</a>
+                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="single-product.html">String</a></h2>
+
+                                    <div class="product-carousel-price">
+                                        <ins>15 points</ins>
+                                    </div>
+                                </div>
+                                <div class="single-product">
+                                    <div class="product-f-image">
+                                        <img th:src="@{'img/logo2.png'}" alt="">
+                                        <div class="product-hover">
+                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Solve Problem</a>
+                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                        </div>
+                                    </div>
+
+                                    <h2><a href="single-product.html">Exceptions</a></h2>
+
+                                    <div class="product-carousel-price">
+                                        <ins>30 points</ins>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="brands-area">
+            <div class="zigzag-bottom"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="brand-wrapper">
+                            <h2 class="section-title">Elita</h2>
+                            <div class="brand-list">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-widget-area">
+<!--            <div class="zigzag-bottom"></div>-->
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="single-product-widget">
+                            <h2 class="product-wid-title">Top Students</h2>
+                            <a href="" class="wid-view-more">View All</a>
+                            <div class="single-wid-product">
+                                <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
+                                <h2><a href="index.html">Student</a></h2>
+                                <div class="product-wid-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="product-wid-price">
+                                    <ins>Points 3999</ins>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="single-product-widget">
+                                <h2 class="product-wid-title">Recently Viewed</h2>
+                                <a href="#" class="wid-view-more">View All</a>
+                                <div class="single-wid-product">
+                                    <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
+                                    <h2><a href="index.html">Student</a></h2>
+                                    <div class="product-wid-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product-wid-price">
+                                        <ins>Points 3999</ins>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="single-product-widget">
+                                <h2 class="product-wid-title">Top New</h2>
+                                <a href="#" class="wid-view-more">View All</a>
+                                <div class="single-wid-product">
+                                    <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
+                                    <h2><a href="index.html">Student</a></h2>
+                                    <div class="product-wid-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product-wid-price">
+                                        <ins>Points 3999</ins>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="footer-top-area">
+                <div class="zigzag-bottom"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="footer-about-us">
+                                <h2>Code<span>farm</span></h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi veritatis magni at?</p>
+                                <div class="footer-social">
+                                    <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+                                    <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+                                    <a href="#" target="_blank"><i class="fa fa-youtube"></i></a>
+                                    <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    <a href="#" target="_blank"><i class="fa fa-pinterest"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="footer-menu">
+                                <h2 class="footer-wid-title">User Navigation </h2>
+                                <ul>
+                                    <li><a href="#">My account</a></li>
+                                    <li><a href="#">Contest</a></li>
+                                    <li><a href="#">Tasks</a></li>
+                                    <li><a href="#">C++</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="footer-menu">
+                                <h2 class="footer-wid-title">Categories</h2>
+                                <ul>
+                                    <li><a href="#"></a></li>
+                                    <li><a href="#"></a></li>
+                                    <li><a href="#"></a></li>
+                                    <li><a href="#"></a></li>
+                                    <li><a href="#"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="footer-newsletter">
+                                <h2 class="footer-wid-title">Twitch</h2>
+                                <p>please Subscribe to 5k carry</p>
+                                <div class="newsletter-form">
+                                    <form action="https://www.twitch.tv/okaminyaa">
+                                        <input type="submit" value="Subscribe">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="copyright">
+                                <p>&copy; 2019 Codefarm.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div layout:fragment="contentPart"></div>
+    </body>
 </html>
