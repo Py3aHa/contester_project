@@ -8,38 +8,6 @@
     <title>Registration</title>
 </head>
 <body>
-    <script>
-        function validate() {
-            if(document.error.value != null) {
-                if (document.loginForm.email.value == "" && document.loginForm.password.value == "") {
-                    alert("Username and password are required");
-                    document.loginForm.username.focus();
-                    return false;
-                }
-                if (document.loginForm.email.value == "") {
-                    alert("Username is required");
-                    document.loginForm.username.focus();
-                    return false;
-                }
-                if (document.loginForm.password.value == "") {
-                    alert("Password is required");
-                    document.loginForm.password.focus();
-                    return false;
-                }
-                if (document.loginForm.name.value == "") {
-                    alert("Name is empty");
-                    document.loginForm.name.focus();
-                    return false;
-                }
-                if (document.loginForm.password.value != document.loginForm.rePass.value) {
-                    alert("Passwords are different");
-                    document.loginForm.password.focus();
-                    document.loginForm.rePass.focus();
-                    return false;
-                }
-            }
-        }
-    </script>
 
     <div layout:fragment="header" class="container">
         <div name = "error" th:if = "${error}" class = "mt-mb-5">

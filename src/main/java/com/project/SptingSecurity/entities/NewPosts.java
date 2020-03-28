@@ -32,4 +32,7 @@ public class NewPosts {
 
     @Column(name = "postDate")
     private Date postDate;
+
+    @Column(name = "deletedAt")
+    private Date deletedAt;
 }

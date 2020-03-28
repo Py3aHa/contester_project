@@ -45,8 +45,12 @@
     <div class="wrapper">
         <div class="container">
             <h1>Codefarm</h1>
-            <div name = "error" th:if="${error}" th:text="${error}">
-                <h1 th:text="${m}"></h1>
+
+                                                <!--            Нужно красиво выводить, можно даже через скрипты-->
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                    Invalid username and password.
+                </div>
             </div>
             <form class="form" method="post" th:action="@{'/auth'}">
                 <input type="email" name = "user_email" placeholder="User@mail.com" />

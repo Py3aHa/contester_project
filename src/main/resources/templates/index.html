@@ -9,6 +9,7 @@
 </head>
 <body>
     <div layout:fragment="header">
+<!--        carousel        -->
         <div class="slider-area">
             <div class="zigzag-bottom"></div>
             <div id="slide-list" class="carousel carousel-fade slide" data-ride="carousel">
@@ -97,22 +98,30 @@
             </div>
         </div>
 
-        <!--        carousel        -->
+        <!--        NEWS        -->
 
         <div class="maincontent-area">
             <div class="zigzag-bottom"></div>
             <div class="container">
+
+                                                        <!--                НУЖНА КРАСИВАЯ КНОПКА           -->
+
+
+                <div>
+                    <p>hello</p>
+                    <a class="btn btn-light btn-outline-secondary" th:href="@{'/addNewPost'}" role="button"><i class="fa fa-plus"></i> ADD</a>
+                </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" th:each = "n: ${news}">
                         <div class="latest-tasks">
                             <h2 class="section-title">Latest Tasks</h2>
                             <div class="product-carousel">
                                 <div class="single-product">
                                     <div class="product-f-image">
-                                        <img th:src="@{'img/logo2.png'}" alt="">
+                                        <img th:src="@{'img/news.jpg'}" alt="">
                                         <div class="product-hover">
-                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i>Solve problem</a>
-                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                            <a th:href="@{'/details/'+${n.id}}" th:text="${n.title}" class="add-to-cart-link"><i class="fa fa-link"></i> See details</a>
+                                            <a th:href="@{'/details/'+${n.id}}" th:text="${n.title}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
                                         </div>
                                     </div>
 
@@ -122,89 +131,42 @@
                                         <ins>15 points</ins>
                                     </div>
                                 </div>
-                                <div class="single-product">
-                                    <div class="product-f-image">
-                                        <img th:src="@{'img/logo2.png'}" alt="">
-                                        <div class="product-hover">
-                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Solve Problem</a>
-                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
-                                        </div>
-                                    </div>
-
-                                    <h2><a href="single-product.html">Arrays</a></h2>
-                                    <div class="product-carousel-price">
-                                        <ins>25 points</ins>
-                                    </div>
-                                </div>
-                                <div class="single-product">
-                                    <div class="product-f-image">
-                                        <img th:src="@{'img/logo2.png'}" alt="">
-                                        <div class="product-hover">
-                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i>Solve Problem</a>
-                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
-                                        </div>
-                                    </div>
-
-                                    <h2><a href="single-product.html">Algorithms</a></h2>
-
-                                    <div class="product-carousel-price">
-                                        <ins>35 points</ins>
-                                    </div>
-                                </div>
-                                <div class="single-product">
-                                    <div class="product-f-image">
-                                        <img th:src="@{'img/logo2.png'}" alt="">
-                                        <div class="product-hover">
-                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i>Solve Problem</a>
-                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
-                                        </div>
-                                    </div>
-
-                                    <h2><a href="single-product.html">Data types</a></h2>
-
-                                    <div class="product-carousel-price">
-                                        <ins>15 points</ins>
-                                    </div>
-                                </div>
-                                <div class="single-product">
-                                    <div class="product-f-image">
-                                        <img th:src="@{'img/logo2.png'}" alt="">
-                                        <div class="product-hover">
-                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Solve Problem</a>
-                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
-                                        </div>
-                                    </div>
-
-                                    <h2><a href="single-product.html">String</a></h2>
-
-                                    <div class="product-carousel-price">
-                                        <ins>15 points</ins>
-                                    </div>
-                                </div>
-                                <div class="single-product">
-                                    <div class="product-f-image">
-                                        <img th:src="@{'img/logo2.png'}" alt="">
-                                        <div class="product-hover">
-                                            <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Solve Problem</a>
-                                            <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
-                                        </div>
-                                    </div>
-
-                                    <h2><a href="single-product.html">Exceptions</a></h2>
-
-                                    <div class="product-carousel-price">
-                                        <ins>30 points</ins>
-                                    </div>
-                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${tabSize > 0}">
+                    <a class="btn btn-info btn-sm ml-1" th:each = "i : ${#numbers.sequence(1, tabSize)}" th:text = "${i}" th:href = "@{'/?page=' + ${i}}">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="brands-area">
+            <div class="zigzag-bottom"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="brand-wrapper">
+                            <h2 class="section-title">Elita</h2>
+                            <div class="brand-list">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
+                                <img th:src="@{'img/logo.jpg'}" alt="">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div layout:fragment="topStudents"></div>
-        <div layout:fragment="footer">
+    <div layout:fragment="footer">
+
     </div>
 </body>
 </html>
