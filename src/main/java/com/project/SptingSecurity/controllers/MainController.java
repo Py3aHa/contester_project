@@ -1,11 +1,15 @@
 package com.project.SptingSecurity.controllers;
 
+import com.project.SptingSecurity.Repositories.NewPostsRepositories;
 import com.project.SptingSecurity.Repositories.RolesRepositories;
 import com.project.SptingSecurity.Repositories.UserRepositories;
+import com.project.SptingSecurity.entities.NewPosts;
 import com.project.SptingSecurity.entities.Roles;
 import com.project.SptingSecurity.entities.Users;
 import com.project.SptingSecurity.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -23,6 +27,7 @@ import sun.security.util.Length;
 import javax.jws.WebParam;
 import javax.servlet.annotation.ServletSecurity;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //https://habr.com/ru/post/350870/
@@ -35,18 +40,22 @@ import java.util.Set;
 //https://www.codeflow.site/ru/article/thymeleaf-iteration
 //https://www.codeflow.site/ru/article/spring-thymeleaf-3-expressions
 //https://habr.com/ru/post/352556/
+//https://github.com/thymeleaf/thymeleaf-extras-springsecurity
 
 @Controller
 public class MainController {
 
     @Autowired
-    UserRepositories userRepositories;
-
-    @Autowired
     UserService userService;
 
     @Autowired
+    UserRepositories userRepositories;
+
+    @Autowired
     RolesRepositories rolesRepositories;
+
+    @Autowired
+    NewPostsRepositories newPostsRepositories;
 
     public Users getUserData(){
         Users userData = null;
@@ -59,12 +68,21 @@ public class MainController {
     }
 
     @GetMapping(path = "/")
-    public String indexPage(Model model){
+    public String indexPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page){
+        boolean userOrNot = false;
+
+        int size = newPostsRepositories.countAllByDeletedAtNull();
+
+        int tabSize = (size+4)/10;
+
+        Pageable pageable = PageRequest.of(page-1,5);
+        List<NewPosts> posts = newPostsRepositories.findAllByDeletedAtNullOrderByPostDateDesc(pageable);
+        model.addAttribute("tabSize", tabSize);
+        model.addAttribute("news", posts);
         model.addAttribute("user", getUserData());
         return "index";
     }
                                                 //Registration
-    String mess = "";
     @GetMapping(path = "registrationPage")
     public String registrationPage(Model model, @RequestParam(name = "error", required = false) String error){
         String [] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -79,9 +97,7 @@ public class MainController {
                                @RequestParam(name = "rePass") String rePass, @RequestParam(name = "day") int day, @RequestParam(name = "month") String month,
                                @RequestParam(name = "year") int year, Model model){
         Users user = userRepositories.findByEmail(email);
-        //model.addAttribute("error", null);
         String redirect = "redirect:/registrationPage?error";
-        String message = "";
         if(user == null){
             if(email.indexOf('@') > 3) {
                 if (password.equals(rePass)) {
@@ -92,30 +108,18 @@ public class MainController {
                         roles.add(role);
                         user = new Users(null, email, password, name, date, true, roles);
                         userService.registerUser(user);
-                        //return "redirect:/";
-                        redirect = "redirect:/index?success";
+
+                        redirect = "redirect:/login?success";
                     }
-                    else {
-                        message = "pass < 6";
-                    }
-                }
-                else{
-                    message = "pass != repass";
                 }
             }
-            message = "email < 4";
         }
-        else{
-            message = "!null";
-        }
-        model.addAttribute("mes", message);
-        System.out.println(message);
         return redirect;
     }
 
                                                 //Login
-    @GetMapping(path = "loginPage")
-    public String loginPage(){
+    @GetMapping(path = "login")
+    public String loginPage(Model model, @RequestParam(name = "error", required = false) String error){
         return "login";
     }
 }
