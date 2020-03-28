@@ -24,6 +24,7 @@ public class NewsController {
     NewPostsRepositories newPostsRepositories;
 
     @GetMapping(path = "/addNewPost")
+
     public String addNewPost(){
         return "addNewPost";
     }
