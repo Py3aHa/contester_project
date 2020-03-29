@@ -75,6 +75,10 @@ public class MainController {
 
         int tabSize = (size+4)/10;
 
+        if(tabSize < 1){
+            tabSize = 1;
+        }
+
         Pageable pageable = PageRequest.of(page-1,5);
         List<NewPosts> posts = newPostsRepositories.findAllByDeletedAtNullOrderByPostDateDesc(pageable);
         model.addAttribute("tabSize", tabSize);

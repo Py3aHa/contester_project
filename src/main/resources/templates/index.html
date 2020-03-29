@@ -107,28 +107,26 @@
                                                         <!--                НУЖНА КРАСИВАЯ КНОПКА           -->
 
 
-                <div>
-                    <p>hello</p>
+                <div sec:authorize="hasAuthority('MODERATOR_ROLE')">
                     <a class="btn btn-light btn-outline-secondary" th:href="@{'/addNewPost'}" role="button"><i class="fa fa-plus"></i> ADD</a>
                 </div>
                 <div class="row">
-                    <div class="col-md-12" th:each = "n: ${news}">
+                    <div class="col-md-12" >
                         <div class="latest-tasks">
-                            <h2 class="section-title">Latest Tasks</h2>
+                            <h2 class="section-title">News</h2>
                             <div class="product-carousel">
-                                <div class="single-product">
+                                <div class="single-product" th:each = "n: ${news}">
                                     <div class="product-f-image">
-                                        <img th:src="@{'img/news.jpg'}" alt="">
+                                        <img th:src="@{'img/'+${n.file}}" alt="no img">
                                         <div class="product-hover">
-                                            <a th:href="@{'/details/'+${n.id}}" th:text="${n.title}" class="add-to-cart-link"><i class="fa fa-link"></i> See details</a>
-                                            <a th:href="@{'/details/'+${n.id}}" th:text="${n.title}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                            <a th:href="@{'/details/'+${n.id}}" class="add-to-cart-link"><i class="fa fa-link"></i> See details</a>
+                                            <a th:href="@{'/details/'+${n.id}}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
                                         </div>
                                     </div>
 
-                                    <h2><a href="single-product.html">Hello World</a></h2>
-
+                                    <h2><a href="single-product.html" th:text="${n.title}"></a></h2>
                                     <div class="product-carousel-price">
-                                        <ins>15 points</ins>
+                                        <ins th:text="${n.postDate}"></ins>
                                     </div>
                                 </div>
                             </div>
