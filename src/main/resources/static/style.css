@@ -1,3 +1,12 @@
+.reg_form{
+    margin-top: 4rem;
+}
+.reg_birthday{
+    margin: 1rem 0 2rem 1.47rem;
+}
+.custom-select{
+    margin-right: 2rem;
+}
 .floatleft { float: left }
 .floatright { float: right }
 .alignleft {
@@ -423,7 +432,6 @@ z-index: 9;
     position: relative;
 }
 .product-widget-area {
-  padding-bottom: 150px;
   padding-top: 30px;
 }
 .product-widget-area .zigzag-bottom{background: #707372}

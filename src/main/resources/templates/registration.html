@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout/main.html"
+      layout:decorate="~{layout/main.html}"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
@@ -10,12 +10,12 @@
 <body>
 
     <div layout:fragment="header" class="container">
-        <div name = "error" th:if = "${error}" class = "mt-mb-5">
+        <div name = "error" th:if = "${error}" class = "mt-30 mb-5">
             <div class="alert alert-danger" role="alert">
                 <p th:each = "m: ${mes}" th:text = "${m}"></p>
             </div>
         </div>
-        <form name = "loginForm" action="/registration" method="post" class="mb-5">
+        <form name = "loginForm" action="/registration" method="post" class="reg_form mb-5">
             <div class="form-group row">
                 <label for="inputId" class="col-sm-2 col-form-label">E-mail</label>
                 <div class="col-sm-10">
@@ -42,21 +42,17 @@
                 </div>
             </div>
             <label class="my-1 mr-2" for="days">Birthday</label>
-            <div class = "row">
-                <div>
-                    <label class="my-1 mr-2" for="days">Preference</label>
+            <div class="row">
+                <div class="reg_birthday">
+                    <label class="my-1 mr-2" for="days">Day</label>
                     <select th:name = "day" class="custom-select my-1 mr-2 mb-1" id="days">
                         <option th:each = "i : ${#numbers.sequence(1, 31)}" th:value = "${i}" th:text = "${i}">
                     </select>
-                </div>
-                <div>
-                    <label class="my-1 mr-2" for="months">Preference</label>
+                    <label class="my-1 mr-2" for="months">Month</label>
                     <select th:name = "month" class="custom-select my-1 mr-2 mb-2" id="months">
                         <option th:each = "i : ${months}" th:value = "${i}" th:text = "${i}">
                     </select>
-                </div>
-                <div>
-                    <label class="my-1 mr-2" for="months">Preference</label>
+                    <label class="my-1 mr-2" for="months">Year</label>
                     <select th:name = "year" class="custom-select my-1 mb-1 mr-2" id="year">
                         <option th:each = "i : ${#numbers.sequence(1950, 2005)}" th:value = "${i}" th:text = "${i}">
                     </select>
@@ -65,5 +61,6 @@
             <button type="submit" class="btn btn-secondary my-1">Submit</button>
         </form>
     </div>
+    <div layout:fragment="topStudents"></div>
 </body>
 </html>
