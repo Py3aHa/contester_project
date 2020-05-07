@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+</head>
+<body>
+<div layout:fragment="header">
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>Tasks</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div >
+            <a sec:authorize="hasAuthority('MODERATOR_ROLE')" class="btn btn-light btn-outline-secondary" th:href="@{'/task/addNewTask'}" role="button"><i class="fa fa-plus"></i> ADD TASK</a>
+            <a sec:authorize="hasAuthority('ADMIN_ROLE')" class="btn btn-light btn-outline-secondary" th:href="@{'/task/addNewCategory'}" role="button"><i class="fa fa-plus"></i> ADD CATEGORY</a>
+        </div>
+        <div class = "form-row">
+            <form action="/findByCategoryAndOrderByLevel" method="post">
+                <div class="form-row">
+                    <select th:name="theme" class="custom-select" >
+                        <option value="">Filter by theme</option>
+                        <option th:each="t: ${themes}" th:text="${t.category}" th:value="${t.id}"></option>
+                    </select>
+                    <select th:name="level" class="custom-select">
+                        <option th:value = "asc">In ascending order</option>
+                        <option th:value = "des">In descending order</option>
+                    </select>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Find</button>
+                </div>
+            </form>
+            <form class="form-inline my-2 my-lg-0" action="task/search">
+                <input name="findTask" class="form-control mr-sm-2" type="search" placeholder="Find task by name" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="single-shop-product" th:each="t: ${tasks}">
+                        <div class="product-upper">
+                            <img th:src="@{'/img/123.jpg'}" alt="">
+                        </div>
+                        <img th:src="@{'/img/'+${t.file}}" alt="">
+                        <h2><a th:href="@{'taskDetails/'+${t.id}}" th:text="${t.title}"></a></h2>
+                        <div class="product-carousel-price">
+
+                        </div>
+
+                        <div class="lessons">
+                            <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70"  rel="nofollow" th:href="@{'taskDetails/'+${t.id}}">Start</a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-pagination text-center">
+                        <nav>
+                            <ul class="pagination">
+                                <li>
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div th:if="${tabSize > 0}">
+                                        <a class="btn btn-info btn-sm ml-1" th:each = "i : ${#numbers.sequence(1, tabSize)}" th:text = "${i}" th:href = "@{'/?page=' + ${i}}">
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

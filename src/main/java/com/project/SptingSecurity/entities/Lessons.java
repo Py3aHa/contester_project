@@ -12,28 +12,33 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "comments")
-public class Comments {
+@Table(name = "lessons")
+public class Lessons {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER )
-    private Users author;
+    @Column(name = "title")
+    private String title;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private NewPosts newsPost;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Lessons lesson;
+    @Column(name = "description")
+    private String description;
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
-    @Column(name = "comment")
-    private String comment;
+    @Column(name = "content")
+    private String content;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Users author;
 
     @Column(name = "postDate")
     private Date postDate;
 
+    @Column(name = "file")
+    private String file;
+
+    @Column(name = "deletedAt")
+    private Date deletedAt;
 }

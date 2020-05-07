@@ -23,8 +23,10 @@
 
         <!--CSS -->
         <link rel="stylesheet" th:href="@{'css/owl.carousel.css'}">
-        <link rel="stylesheet" th:href="@{'style.css'}">
+        <link rel="stylesheet" th:href="@{'/style.css'}">
         <link rel="stylesheet" th:href="@{'css/responsive.css'}">
+
+
     </head>
     <body>
         <!-- js -->
@@ -38,6 +40,9 @@
         <script th:src="@{'js/jquery.sticky.js'}"></script>
         <script th:src="@{'js/jquery.easing.1.3.min.js'}"></script>
         <script th:src="@{'js/main.js'}"></script>
+
+        <script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+
         <!--    class = "site-header sticky-top py-1" -->
         <!--    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top justify-content-center" style="height: 40px; background-color: rgba(191,102,24,0.98)">-->
 
@@ -105,10 +110,10 @@
                     <div class="col-md-8">
                         <div class="user-menu">
                             <ul>
-                                <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
+                                <li sec:authorize="hasAuthority('ADMIN_ROLE')"><a th:href="@{'/admin'}"><i class="fa fa-user-secret"></i> Admin</a></li>
                                 <li><a href="cart.html"><i class="fa fa-"></i> Contest</a></li>
                                 <li><a href="tasks.html"><i class="fa fa-tasks"></i> Tasks </a></li>
-                                <li><a href="checkout.html"><i class="fa fa-dice-d20"></i> C++ </a></li>
+                                <li><a href="checkout.html"><i class="fa fa-dice-d20"></i> Compiler </a></li>
                                 <li sec:authorize = "isAnonymous()"><a th:href="@{'/registrationPage'}"><i class="fa fa-user-plus"></i> Registration</a></li>
                                 <li sec:authorize = "isAnonymous()"><a th:href="@{'/login'}"><i class="fa fa-sign-in"></i> Login</a></li>
                                 <li sec:authorize = "isAuthenticated()"><a th:href="@{'/myProfile'}"><i class="fa fa-user"></i> My Profile</a></li>
@@ -142,7 +147,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="logo">
-                            <h1><a th:href="@{'index.html'}">Code<span>farm</span></a></h1>
+                            <h1><a th:href="@{'/'}">Code<span>farm</span></a></h1>
                         </div>
                     </div>
 
@@ -167,12 +172,12 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="index.html">Home</a></li>
-                            <li><a href="shop.html">C++ Lessons</a></li>
+                            <li class="active"><a th:href="@{'/'}">Home</a></li>
+                            <li><a th:href="@{'/lessons/lessons'}">Lessons</a></li>
                             <li><a href="single-product.html">Solutions</a></li>
                             <li><a href="comp-online.html" target="_blank">Contest</a></li>
                             <li><a href="checkout.html">Forum</a></li>
-                            <li><a href="tasks.html">Tasks</a></li>
+                            <li><a th:href="@{'/task/tasks'}">Tasks</a></li>
                             <li><a href="#">Others</a></li>
                             <li><a href="#">Contact</a></li>
                         </ul>
@@ -182,149 +187,79 @@
         </div>
         <div layout:fragment="header"></div>
 
-        <div class="product-widget-area">
-<!--            <div class="zigzag-bottom"></div>-->
-            <div layout:fragment="topStudents">
+
+
+
+        <div class="footer-top-area">
+            <div class="zigzag-bottom"></div>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="single-product-widget">
-                            <h2 class="product-wid-title">Top Students</h2>
-                            <a href="" class="wid-view-more">View All</a>
-                            <div class="single-wid-product">
-                                <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
-                                <h2><a href="index.html">Student</a></h2>
-                                <div class="product-wid-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="product-wid-price">
-                                    <ins>Points 3999</ins>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="single-product-widget">
-                                <h2 class="product-wid-title">Recently Viewed</h2>
-                                <a href="#" class="wid-view-more">View All</a>
-                                <div class="single-wid-product">
-                                    <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
-                                    <h2><a href="index.html">Student</a></h2>
-                                    <div class="product-wid-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="product-wid-price">
-                                        <ins>Points 3999</ins>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="single-product-widget">
-                                <h2 class="product-wid-title">Top New</h2>
-                                <a href="#" class="wid-view-more">View All</a>
-                                <div class="single-wid-product">
-                                    <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
-                                    <h2><a href="index.html">Student</a></h2>
-                                    <div class="product-wid-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                    <div class="product-wid-price">
-                                        <ins>Points 3999</ins>
-                                    </div>
-                                </div>
-
+                    <div class="col-md-3 col-sm-6">
+                        <div class="footer-about-us">
+                            <h2>Code<span>farm</span></h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi veritatis magni at?</p>
+                            <div class="footer-social">
+                                <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+                                <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+                                <a href="#" target="_blank"><i class="fa fa-youtube"></i></a>
+                                <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                <a href="#" target="_blank"><i class="fa fa-pinterest"></i></a>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            </div>
 
-            <div layout:fragment="footer">
-            <div class="footer-top-area">
-                <div class="zigzag-bottom"></div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-6">
-                            <div class="footer-about-us">
-                                <h2>Code<span>farm</span></h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi veritatis magni at?</p>
-                                <div class="footer-social">
-                                    <a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-                                    <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-                                    <a href="#" target="_blank"><i class="fa fa-youtube"></i></a>
-                                    <a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
-                                    <a href="#" target="_blank"><i class="fa fa-pinterest"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="footer-menu">
-                                <h2 class="footer-wid-title">User Navigation </h2>
-                                <ul>
-                                    <li><a href="#">My account</a></li>
-                                    <li><a href="#">Contest</a></li>
-                                    <li><a href="#">Tasks</a></li>
-                                    <li><a href="#">C++</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="footer-menu">
-                                <h2 class="footer-wid-title">Categories</h2>
-                                <ul>
-                                    <li><a href="#"></a></li>
-                                    <li><a href="#"></a></li>
-                                    <li><a href="#"></a></li>
-                                    <li><a href="#"></a></li>
-                                    <li><a href="#"></a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="footer-newsletter">
-                                <h2 class="footer-wid-title">Twitch</h2>
-                                <p>please Subscribe to 5k carry</p>
-                                <div class="newsletter-form">
-                                    <form action="https://www.twitch.tv/okaminyaa">
-                                        <input type="submit" value="Subscribe">
-                                    </form>
-                                </div>
-                            </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="footer-menu">
+                            <h2 class="footer-wid-title">User Navigation </h2>
+                            <ul>
+                                <li><a href="#">My account</a></li>
+                                <li><a href="#">Contest</a></li>
+                                <li><a href="#">Tasks</a></li>
+                                <li><a href="#">C++</a></li>
+                                <li><a href="login.html">Login</a></li>
+                            </ul>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="footer-bottom-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="copyright">
-                                <p>&copy; 2019 Codefarm.</p>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="footer-menu">
+                            <h2 class="footer-wid-title">Categories</h2>
+                            <ul>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                                <li><a href="#"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                        <div class="footer-newsletter">
+                            <h2 class="footer-wid-title">Twitch</h2>
+                            <p>please Subscribe to 5k carry</p>
+                            <div class="newsletter-form">
+                                <form action="https://www.twitch.tv/okaminyaa">
+                                    <input type="submit" value="Subscribe">
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="footer-bottom-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="copyright">
+                            <p>&copy; 2019 Codefarm.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div layout:fragment="footer"></div>
     </body>
 </html>
