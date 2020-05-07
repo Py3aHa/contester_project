@@ -3,6 +3,7 @@ package com.project.SptingSecurity.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -25,6 +26,8 @@ public class NewPosts {
     @Column(name = "description")
     private String description;
 
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "content")
     private String content;
 

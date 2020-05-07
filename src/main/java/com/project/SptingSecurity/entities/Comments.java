@@ -3,6 +3,7 @@ package com.project.SptingSecurity.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,6 +25,11 @@ public class Comments {
     @ManyToOne(fetch = FetchType.EAGER)
     private NewPosts newsPost;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Lessons lesson;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "comment")
     private String comment;
 

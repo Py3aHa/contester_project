@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin profile</title>
+
+    <link rel="stylesheet" href="http://codemirror.net/lib/codemirror.css">
+
+
+    <script src="http://codemirror.net/lib/codemirror.js"></script>
+    <script src="http://codemirror.net/mode/javascript/javascript.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+
+</head>
+<body>
+
+
+
+
+<div layout:fragment="header" class="mb-4 pt-3">
+    <div class="container form-row mr-5 ml-5" style="margin-top: 80px; margin-bottom: 100px;">
+        <div class="form-group" style="float: left;">
+            <h4>Users</h4>
+            <table class="table table-hover" style="width:500px; margin-right: 100px;">
+
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Moderator</th>
+                    <th scope="col">Block</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u: ${users}" th:if="${u != user}">
+                    <th scope="row" th:text="${u.id}"></th>
+                    <td th:text="${u.email}"></td>
+                    <td th:text="${u.name}"></td>
+                    <td>
+                        <form action="/moderator" method="post">
+                            <input type="hidden" th:name="id" th:value="${u.id}">
+                            <button type="submit" class="btn btn-secondary btn-icon">
+                                <span class="icon" ><i class="fas fa-lock"></i>Make Moderator</span>
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/block" method="post">
+                            <input type="hidden" th:name="id" th:value="${u.id}">
+                            <button type="submit" class="btn btn-secondary btn-icon">
+                                <span class="icon"><i class="fas fa-lock" ></i>Block</span>
+                            </button>
+
+                        </form>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group" >
+            <h4>Moderators</h4>
+            <table class="table table-hover" style="width:500px;">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Moderator</th>
+                        <th scope="col">Block</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="m: ${moderator}" th:if="${m != user}">
+                    <th scope="row" th:text="${m.id}"></th>
+                    <td th:text="${m.email}"></td>
+                    <td th:text="${m.name}"></td>
+                    <td>
+                        <form action="/user" method="post">
+                            <input type="hidden" th:name="id" th:value="${m.id}">
+                            <button type="submit" class="btn btn-secondary btn-icon">
+                                <span class="icon"><i class="fas fa-lock"></i>Make User</span>
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/block" method="post">
+                            <input type="hidden" th:name="id" th:value="${m.id}">
+                            <button type="submit" class="btn btn-secondary btn-icon">
+                                <span class="icon"><i class="fas fa-lock"></i>Block</span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

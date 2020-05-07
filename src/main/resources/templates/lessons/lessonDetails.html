@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:test="${lesson.title}"></title>
+</head>
+<body>
+
+    <div layout:fragment="header">
+        <div class="product-big-title-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-bit-title text-center">
+                            <h2 th:text="${lesson.title}"></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="single-product-area">
+            <div class="zigzag-bottom"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+
+                        <div class="single-sidebar">
+                            <img th:src="@{'/img/'+${lesson.file}}" alt="">
+                            <div class="thubmnail-recent">
+                                <img th:src="@{'img/product-thumb-1.jpg'}" class="recent-thumb" alt="">
+                                <h2 th:utext="${lesson.content}"></h2>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="product-content-right">
+                            <div class="row">
+
+                                <div class="col-sm-6">
+                                    <div class="product-inner">
+
+                                    </div>
+
+                                    <div role="tabpanel">
+                                        <ul class="product-tab" role="tablist">
+                                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Description</a></li>
+                                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab" sec:authorize="isAuthenticated()" th:if="${user != null}">Change</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                                <h3 th:text="${lesson.title}"></h3>
+                                                <h2 th:text="${lesson.postDate}"></h2>
+
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane fade" id="profile">
+                                                <div class="submit-review">
+
+                                                    <div class="rating-chooser">
+                                                        <p><a th:href="@{'/lessons/editLesson/'+${lesson.id}}" class="btn btn-primary">Edit</a></p>
+                                                        <form action="/lessons/deleteLesson" method="post">
+                                                            <input type="hidden" th:name="id" th:value="${lesson.id}">
+                                                            <button type="submit">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="col-md-12" sec:authorize="isAuthenticated()">
+                    <div class="panel">
+                        <form action="/lessons/addCommentLesson" method="post" class="panel-body">
+                            <textarea name="comment" id = "post_content"  style="min-height: 600px;"></textarea>
+                            <input name = "id" th:value="${lesson.id}" type="hidden">
+                            <div class="mar-top clearfix">
+                                <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="mt-5" th:if="${comments != null}" th:each="c: ${comments}">
+                    <a class="media-left" href="#"><img class="img-circle img-sm" alt="User profile" src=""></a>
+                    <div>
+                        <div class="mar-btm">
+                            <a href="#" class="btn-link text-semibold media-heading box-inline" th:text="${c.author.name}"></a>
+                            <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg" th:text="${c.postDate}"></i> </p>
+                            <div th:if="${userCheck!= null}">
+<!--                            <a th:href="@{'/news/editCommentNews'+${comment.id}"><i class="fa fa-pencil" aria-hidden="true"></i></a>-->
+                                <form action="/lessons/deleteCommentLesson" method="post">
+                                    <input type="hidden" th:name="id" th:value="${c.id}">
+                                    <button type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <p th:utext="${c.comment}"></p>
+                        <!--                    <div class="pad-ver">-->
+                        <!--                        <div class="btn-group">-->
+                        <!--                            <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>-->
+                        <!--                            <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>-->
+                        <!--                        </div>-->
+                        <!--                        <a class="btn btn-sm btn-default btn-hover-primary" href="#">Reply</a>-->
+                        <!--                    </div>-->
+                        <hr>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                ClassicEditor
+                    .create( document.querySelector( '#post_content' ) )
+                    .catch( error => {
+                    console.error( error );
+                } );
+            </script>
+
+        </div>
+    </div>
+    </div>
+
+
+</body>
+</html>

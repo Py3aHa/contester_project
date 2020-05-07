@@ -108,7 +108,7 @@
 
 
                 <div sec:authorize="hasAuthority('MODERATOR_ROLE')">
-                    <a class="btn btn-light btn-outline-secondary" th:href="@{'/addNewPost'}" role="button"><i class="fa fa-plus"></i> ADD</a>
+                    <a class="btn btn-light btn-outline-secondary" th:href="@{'/news/addNewPost'}" role="button"><i class="fa fa-plus"></i> ADD</a>
                 </div>
                 <div class="row">
                     <div class="col-md-12" >
@@ -119,8 +119,8 @@
                                     <div class="product-f-image">
                                         <img th:src="@{'img/'+${n.file}}" alt="no img">
                                         <div class="product-hover">
-                                            <a th:href="@{'/details/'+${n.id}}" class="add-to-cart-link"><i class="fa fa-link"></i> See details</a>
-                                            <a th:href="@{'/details/'+${n.id}}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                            <a th:href="@{'/news/details/'+${n.id}}" class="add-to-cart-link"><i class="fa fa-link"></i> See details</a>
+                                            <a th:href="@{'/news/details/'+${n.id}}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
                                         </div>
                                     </div>
 
@@ -161,8 +161,79 @@
                 </div>
             </div>
         </div>
+
+        <div class="product-widget-area">
+            <div class="zigzag-bottom"></div>
+            <div layout:fragment="topStudents">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="single-product-widget">
+                                <h2 class="product-wid-title">Top Students</h2>
+                                <a href="" class="wid-view-more">View All</a>
+                                <div class="single-wid-product">
+                                    <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
+                                    <h2><a href="index.html">Student</a></h2>
+                                    <div class="product-wid-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product-wid-price">
+                                        <ins>Points 3999</ins>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="single-product-widget">
+                                    <h2 class="product-wid-title">Recently Viewed</h2>
+                                    <a href="#" class="wid-view-more">View All</a>
+                                    <div class="single-wid-product">
+                                        <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
+                                        <h2><a href="index.html">Student</a></h2>
+                                        <div class="product-wid-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <div class="product-wid-price">
+                                            <ins>Points 3999</ins>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="single-product-widget">
+                                    <h2 class="product-wid-title">Top New</h2>
+                                    <a href="#" class="wid-view-more">View All</a>
+                                    <div class="single-wid-product">
+                                        <a href="index.html"><img th:src="@{'img/logo4.jpg'}" alt="" class="product-thumb"></a>
+                                        <h2><a href="index.html">Student</a></h2>
+                                        <div class="product-wid-rating">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                        <div class="product-wid-price">
+                                            <ins>Points 3999</ins>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    </div>
 </body>
 </html>

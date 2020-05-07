@@ -13,6 +13,7 @@
         <div name = "error" th:if = "${error}" class = "mt-30 mb-5">
             <div class="alert alert-danger" role="alert">
                 <p th:each = "m: ${mes}" th:text = "${m}"></p>
+                <p>error</p>
             </div>
         </div>
         <form name = "loginForm" action="/registration" method="post" class="reg_form mb-5">

@@ -7,6 +7,7 @@ import com.project.SptingSecurity.entities.NewPosts;
 import com.project.SptingSecurity.entities.Roles;
 import com.project.SptingSecurity.entities.Users;
 import com.project.SptingSecurity.services.UserService;
+import jdk.nashorn.internal.runtime.regexp.joni.encoding.ObjPtr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,9 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import sun.security.util.Length;
 
 import javax.jws.WebParam;
+import javax.jws.soap.SOAPBinding;
+import javax.management.relation.Role;
 import javax.servlet.annotation.ServletSecurity;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 //https://habr.com/ru/post/350870/
@@ -107,10 +111,10 @@ public class MainController {
                 if (password.equals(rePass)) {
                     if (password.length() == 6) {
                         String date = day + "." + month + "." + year;
-                        Roles role = rolesRepositories.getOne(2L);
+                        Roles role = rolesRepositories.getOne(3L);
                         Set<Roles> roles = new HashSet<>();
                         roles.add(role);
-                        user = new Users(null, email, password, name, date, true, roles);
+                        user = new Users(null, email, password, name, date, true,roles);
                         userService.registerUser(user);
 
                         redirect = "redirect:/login?success";
@@ -126,4 +130,71 @@ public class MainController {
     public String loginPage(Model model, @RequestParam(name = "error", required = false) String error){
         return "login";
     }
+
+
+    @GetMapping(path = "admin")
+    @PreAuthorize("hasAuthority('ADMIN_ROLE')")
+    public String adminPage(Model model){
+        Optional<Roles> roles = rolesRepositories.findById(2L);
+        Roles moderator = roles.get();
+
+        roles = rolesRepositories.findById(3L);
+        Roles user = roles.get();
+
+        List<Users> usersList = userRepositories.findByRolesOrderById(user);
+        List<Users> moderatorList = userRepositories.findByRolesOrderById(moderator);
+        for(Users u: userRepositories.findByRolesOrderById(user)){
+            for(Users m: userRepositories.findByRolesOrderById(moderator)){
+                if(u == m){
+                    usersList.remove(u);
+                }
+            }
+        }
+
+        model.addAttribute("user", getUserData());
+        model.addAttribute("users", usersList);
+        model.addAttribute("moderator", moderatorList);
+        return "admin";
+    }
+
+    @PostMapping(path = "block")
+    public String blockUser(Model model, @RequestParam(name = "id") Long id){
+        Optional<Users> user = userRepositories.findById(id);
+        if(user.get().isActive()) {
+            user.get().setActive(false);
+        }else{
+            user.get().setActive(true);
+        }
+        userRepositories.save(user.get());
+        adminPage(model);
+        return "redirect:/admin";
+    }
+
+    @PostMapping(path="moderator")
+    public String makeModerator(Model model, @RequestParam(name = "id") Long id){
+        Optional<Users> user = userRepositories.findById(id);
+        Set<Roles> roles = user.get().getRoles();
+        Roles role = rolesRepositories.getOne(2L);
+        roles.add(role);
+        user.get().setRoles(roles);
+        userRepositories.save(user.get());
+        //adminPage(model);
+        return "redirect:/admin";
+    }
+
+    @PostMapping(path="user")
+    public String makeUser(@RequestParam(name = "id") Long id){
+        Optional<Users> user = userRepositories.findById(id);
+        Roles role = rolesRepositories.getOne(2L);
+        Set<Roles> roles = user.get().getRoles();
+        for(Roles r: roles){
+            System.out.println(r);
+        }
+        roles.remove(role);
+        user.get().setRoles(roles);
+        userRepositories.save(user.get());
+        //adminPage(model);
+        return "redirect:/admin";
+    }
+
 }

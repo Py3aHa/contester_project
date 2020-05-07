@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Lessons</title>
+</head>
+<body>
+    <div layout:fragment="header">
+        <div class="product-big-title-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-bit-title text-center">
+                            <h2>Lessons</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container" sec:authorize="hasAuthority('MODERATOR_ROLE')">
+            <a class="btn btn-light btn-outline-secondary" th:href="@{'/lessons/addNewLesson'}" role="button"><i class="fa fa-plus"></i> ADD</a>
+        </div>
+        <div class="single-product-area">
+            <div class="zigzag-bottom"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <div class="single-shop-product" th:each="l: ${lessons}">
+                            <div class="product-upper">
+                                <img th:src="@{'/img/123.jpg'}" alt="">
+                            </div>
+                            <img th:src="@{'/img/'+${l.file}}" alt="">
+                            <h2><a th:href="@{'/lessons/lessonDetails/'+${l.id}}" th:text="${l.title}"></a></h2>
+                            <ins th:text="${l.description}"></ins>
+                            <div class="product-carousel-price">
+
+                            </div>
+
+                            <div class="lessons">
+                                <a class="add_to_cart_button" data-quantity="1" data-product_sku="" data-product_id="70"  rel="nofollow" th:href="@{'/lessons/lessonDetails/'+${l.id}}">Start</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="product-pagination text-center">
+                            <nav>
+                                <ul class="pagination">
+                                    <li>
+                                        <a href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div th:if="${tabSize > 0}">
+                                            <a class="btn btn-info btn-sm ml-1" th:each = "i : ${#numbers.sequence(1, tabSize)}" th:text = "${i}" th:href = "@{'/?page=' + ${i}}">
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

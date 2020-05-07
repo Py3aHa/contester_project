@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Task</title>
+</head>
+<body>
+<script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+
+<div layout:fragment="header">
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>New Task</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                    Title or content is empty.
+                </div>
+            </div>
+
+
+            <script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
+            <div class="row">
+                <div class="col-sm-8 offset-2">
+                    <form th:action = "@{'/task/addTask'}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <select th:name="category" class="custom-select" >
+                                <option value="">Select category of task</option>
+                                <option th:each="c: ${category}" th:text="${c.category}" th:value="${c.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                TITLE :
+                            </label>
+                            <input type="text" class="form-control" name="title" placeholder="Title">
+                        </div>
+
+                        <div class="form-group ">
+                            <label for="inputImage">Image:</label>
+                            <input type="file" name = "img" class="form-control" id="inputImage" text="Upload picture">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Description :
+                            </label>
+                            <textarea name="description" id = "post_content"  style="min-height: 300px;" placeholder="Please, write the task condition"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                INPUT :
+                            </label>
+                            <input type="text" class="form-control" name="input" placeholder="Example of input">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                OUTPUT :
+                            </label>
+                            <input type="text" class="form-control" name="output" placeholder="Example of output">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Level in % :
+                            </label>
+                            <input type="text" class="form-control" name="level" style="width: 30px;" placeholder="0">
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputTest">Tests for input:</label>
+                            <input type="file" name = "testInput" class="form-control" id="inputTest" text="Upload Tests for INPUT">
+                        </div>
+                        <div class="form-group ">
+                            <label for="outputTest">Tests for output:</label>
+                            <input type="file" name = "testOutput" class="form-control" id="outputTest" text="Upload Tests for OUTPUT">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-info" th:text = "Post"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script>
+                ClassicEditor
+                    .create( document.querySelector( '#post_content' ) )
+                    .catch( error => {
+                    console.error( error );
+                } );
+            </script>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
