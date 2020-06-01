@@ -1,12 +1,10 @@
 package com.project.SptingSecurity.controllers;
 
 import com.project.SptingSecurity.Repositories.CategoriesRepositories;
+import com.project.SptingSecurity.Repositories.SolutionsRepository;
 import com.project.SptingSecurity.Repositories.TasksRepositories;
 import com.project.SptingSecurity.Repositories.UserRepositories;
-import com.project.SptingSecurity.entities.Lessons;
-import com.project.SptingSecurity.entities.TaskCategories;
-import com.project.SptingSecurity.entities.Tasks;
-import com.project.SptingSecurity.entities.Users;
+import com.project.SptingSecurity.entities.*;
 import org.hibernate.dialect.FirebirdDialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RootUriTemplateHandler;
@@ -21,16 +19,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.spring5.processor.SpringErrorClassTagProcessor;
 
-import java.io.File;
-import java.io.IOException;
+import javax.jws.WebParam;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 //сделать поиск по слову
 //
@@ -48,6 +45,9 @@ public class TasksController {
     @Autowired
     CategoriesRepositories categoriesRepositories;
 
+    @Autowired
+    SolutionsRepository solutionsRepository;
+
     public Users getUserData(){
         Users userData = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -59,7 +59,16 @@ public class TasksController {
     }
 
     @GetMapping(path = "tasks")
-    public String tasksPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page){
+    public String tasksPage(Model model, @RequestParam(name = "page", defaultValue = "1") int page) throws IOException, InterruptedException {
+
+
+        String input = "C:\\Users\\Acer\\IdeaProjects\\3.2\\springSecurity\\src\\main\\resources\\static\\tests\\1_INPUT";
+        String output = "C:\\Users\\Acer\\IdeaProjects\\3.2\\springSecurity\\src\\main\\resources\\static\\tests\\1_OUTPUT";
+        //checkSolution(input, output);
+
+
+
+
         int size = tasksRepositories.countAllBy();
 
         int tabSize = (size+4)/10;
@@ -223,7 +232,10 @@ public class TasksController {
 
     @GetMapping(path = "/taskDetails/{id}")
     public String lessonDetailsPage(Model model, @PathVariable(name = "id") Long id){
-
+        if(getUserData()!=null){
+            List<Solutions> solutionsList = solutionsRepository.findAllByUserAndAndTaskOrderByIdDesc(userRepositories.findById(getUserData().getId()).get(), tasksRepositories.findById(id).get());
+            model.addAttribute("solutions", solutionsList);
+        }
         Tasks task= tasksRepositories.findById(id).get();
 
         model.addAttribute("task", task);
@@ -276,9 +288,9 @@ public class TasksController {
 
 
                 Optional<Tasks> task = tasksRepositories.findByTitleAndAuthor(title, getUserData());
-                Long idTask = task.get().getId();
+                Long idTask = id;
 
-                String newDir = uploadDirectoryForTests + "\\" + task.get().getAuthor().getId() + "\\";
+                String newDir = uploadDirectoryForTests + "\\" + t.getAuthor().getId() + "\\";
 
                 //INPUT file
                 bytes = testInput.getBytes();
@@ -309,4 +321,159 @@ public class TasksController {
 
         return "redirect:/task/editTask?error";
     }
+
+//    public void checkSolution(String inputFile, String outputFile) throws IOException, InterruptedException {
+////"C:\\Users\\Acer\\IdeaProjects\\3.2\\springSecurity\\src\\main\\resources\\static\\check\\test.exe"
+//
+//
+//        try{
+//            ProcessBuilder processBuilder = new ProcessBuilder("g++", "test.cpp");
+//            processBuilder.directory(new File("C:\\Users\\Acer\\IdeaProjects\\3.2\\springSecurity\\src\\main\\resources\\static\\check"));
+//            processBuilder.start().waitFor();
+//            Process process = Runtime.getRuntime().exec("cmd.exe /c a.exe");
+//
+//            BufferedReader output = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//            System.out.println(output.readLine());
+//        }catch (IOException | InterruptedException e){
+//            e.printStackTrace();
+//        }
+//    }
+    public String checking(String code, String input, String lang){
+        String dir = "C:\\Users\\Acer\\IdeaProjects\\3.2\\springSecurity\\src\\main\\resources\\static\\check\\";
+        try{
+            //Open file test.cpp and write code
+            FileWriter file = new FileWriter(dir+"test.cpp", false);
+            file.write(code);
+            file.flush();
+            file.close();
+            //Open input.txt and write input
+            file = new FileWriter(dir+"input.txt", false);
+            file.write(input);
+            file.flush();
+            file.close();
+            //Compile
+            if(lang.equals("cpp")) {
+                ProcessBuilder processBuilder = new ProcessBuilder("g++", "test.cpp");
+                processBuilder.directory(new File(dir));
+                int result = processBuilder.start().waitFor();
+                if(result == 1) return "Compilation error";
+
+                //< input.txt > < output.txt >
+                Process process = Runtime.getRuntime().exec("cmd.exe /c cd "+dir+" & a.exe < input.txt > output.txt");
+                process.waitFor();
+//                BufferedReader output = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//                System.out.println(output.readLine());
+            }
+
+            try (FileReader reader = new FileReader(dir+"output.txt")){
+                BufferedReader bufferedReader = new BufferedReader(reader);
+                int i = 1;
+                String s = "";
+                while (bufferedReader.ready()) {
+                    s += bufferedReader.readLine()+" ";
+                    System.out.println(i + " : " + s);
+                    i++;
+                }
+                if(s.equals("")) s = "Runtime error";
+                System.out.println("\n\n\n\n\noutput "+s+"\n\n\n\n\n");
+                return s;
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+
+
+        }catch (IOException | InterruptedException e){
+            e.printStackTrace();
+        }
+        return "Fatal error";
+    }
+
+    @PostMapping(path = "checkCode")
+    public String checkCode(Model model, @RequestParam(name = "id") Long id, @RequestParam(name =  "user") Long userId,
+                            @RequestParam(name = "lang") String lang, @RequestParam(name = "code") String code){
+        Tasks task = tasksRepositories.findById(id).get();
+        String dir = "C:\\Users\\Acer\\IdeaProjects\\3.2\\springSecurity\\src\\main\\resources\\static\\tests\\"+task.getAuthor().getId();
+        int i = 1;
+        try {
+            FileReader inputFile = new FileReader(dir+"\\"+task.getInputFile());
+            FileReader outputFile = new FileReader(dir+"\\"+task.getOutputFile());
+            BufferedReader input = new BufferedReader(inputFile);
+            BufferedReader output = new BufferedReader(outputFile);
+            //FileReader checkRusult = new FileReader("C:\\Users\\Acer\\IdeaProjects\\3.2\\springSecurity\\src\\main\\resources\\static\\check\\output.txt");
+            //List<Solutions> solutionsList = solutionsRepository.findAllByUserAndAndTaskOrderByIdDesc(userRepositories.findById(userId).get(), tasksRepositories.findById(id).get());
+
+            String s1 = "", s2 = "";
+            while (input.ready() && output.ready()) {
+                s1 = input.readLine();
+                s2 = output.readLine();
+                String result = checking(code, s1, lang);
+//                FileReader checkResult = new FileReader("C:\\Users\\Acer\\IdeaProjects\\3.2\\springSecurity\\src\\main\\resources\\static\\check\\output.txt");
+//                String check = new BufferedReader(checkResult).readLine();
+                if(result.equals("Runtime error") || result.equals("Compilation error") || result.equals("Fatal error")){
+                    model.addAttribute("test", i);
+                    model.addAttribute("answer", result);
+                    Solutions solution = new Solutions(null, code, "test "+i, result, getUserData(), task);
+                    solutionsRepository.save(solution);
+                    inputFile.close();
+                    outputFile.close();
+                    return "redirect:/task/taskDetails/"+id;
+                }
+                if(!result.equals(s2+" ")){
+                    System.out.println("\n\n\n\n\n\n\nResult "+result+"s2 = "+s2+"\n\n\n\n\n\n\n\n");
+                    model.addAttribute("test", i);
+                    model.addAttribute("answer", "!Wrong Answer!");
+                    Solutions solution = new Solutions(null, code, "test "+i, "!Wrong Answer!", getUserData(), task);
+                    solutionsRepository.save(solution);
+                    inputFile.close();
+                    outputFile.close();
+                    return "redirect:/task/taskDetails/"+id;
+                }else {
+                    i++;
+                }
+                //checkResult.close();
+            }
+            inputFile.close();
+            outputFile.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        model.addAttribute("answer", "Accepted!");
+        Solutions solution = new Solutions(null, code, "test "+i, "Accepted!", getUserData(), task);
+        solutionsRepository.save(solution);
+
+        return "redirect:/task/taskDetails/"+id;
+    }
+
+    @GetMapping(path = "compiler")
+    public String compiler(Model model){
+        model.addAttribute("code", null);
+        model.addAttribute("input", null);
+        return "/task/compiler";
+    }
+
+    @PostMapping(path = "compile")
+    public String compile(Model model, @RequestParam(name = "code") String code, @RequestParam(name = "input", required = false) String input,
+                          @RequestParam(name = "language", required = false) String lang){
+        if(lang.equals("")) lang = "cpp";
+        System.out.println("lang: "+lang);
+        String output = checking(code, input, lang);
+        model.addAttribute("code", code);
+        System.out.println("Code: "+code);
+        model.addAttribute("input", input);
+        System.out.println("input: "+input);
+        model.addAttribute("output", output);
+        System.out.println("Output: "+output);
+        return "/task/compiler";
+    }
+
+    @GetMapping(path = "/Solution/{id}")
+    public String solutionPage(Model model, @PathVariable(name = "id") Long id){
+        Solutions solution = solutionsRepository.findAllById(id).get();
+        model.addAttribute("code", solution.getCode());
+        return "/task/Solution";
+    }
+
 }
+
+
+
