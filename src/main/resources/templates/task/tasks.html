@@ -22,7 +22,7 @@
     </div>
 
     <div class="container">
-        <div >
+        <div class="m-t-20">
             <a sec:authorize="hasAuthority('MODERATOR_ROLE')" class="btn btn-light btn-outline-secondary" th:href="@{'/task/addNewTask'}" role="button"><i class="fa fa-plus"></i> ADD TASK</a>
             <a sec:authorize="hasAuthority('ADMIN_ROLE')" class="btn btn-light btn-outline-secondary" th:href="@{'/task/addNewCategory'}" role="button"><i class="fa fa-plus"></i> ADD CATEGORY</a>
         </div>

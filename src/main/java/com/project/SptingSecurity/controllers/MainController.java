@@ -7,7 +7,7 @@ import com.project.SptingSecurity.entities.NewPosts;
 import com.project.SptingSecurity.entities.Roles;
 import com.project.SptingSecurity.entities.Users;
 import com.project.SptingSecurity.services.UserService;
-import jdk.nashorn.internal.runtime.regexp.joni.encoding.ObjPtr;
+//import jdk.nashorn.internal.runtime.regexp.joni.encoding.ObjPtr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import sun.security.util.Length;
+//import sun.security.util.Length;
 
-import javax.jws.WebParam;
-import javax.jws.soap.SOAPBinding;
+//import javax.jws.WebParam;
+//import javax.jws.soap.SOAPBinding;
 import javax.management.relation.Role;
 import javax.servlet.annotation.ServletSecurity;
 import java.util.HashSet;
@@ -109,7 +109,7 @@ public class MainController {
         if(user == null){
             if(email.indexOf('@') > 3) {
                 if (password.equals(rePass)) {
-                    if (password.length() == 6) {
+                    if (password.length() >= 6) {
                         String date = day + "." + month + "." + year;
                         Roles role = rolesRepositories.getOne(3L);
                         Set<Roles> roles = new HashSet<>();
